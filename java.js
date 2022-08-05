@@ -1,11 +1,11 @@
-// Timer that updates in real time
+populateLocalStorage();
 
 setInterval(() => { $('#time').text(moment().format('MMMM Do YYYY, H:mm:ss a'));});
 
+
 function setKey() {
     var grabID = $(this).parent().attr('id');
-    localStorage.setItem(grabID, $(grabID + ' textarea').val());
-    assignClass();
+    localStorage.setItem(grabID, $('#' + grabID + ' textarea').val());
 };
 
 $('.saveBtn').on('click', setKey);
@@ -14,10 +14,6 @@ function assignClass() {
     $('.time-block').each(function() {
         let timeID = parseInt($(this).attr('id'));
         let hour = moment().format('H');
-
-        $(this).removeClass('past');
-        $(this).removeClass('present');
-        $(this).removeClass('future');
 
         if (timeID > hour) {
             $(this).addClass('future');
@@ -31,3 +27,10 @@ function assignClass() {
     })
 }
 assignClass();
+
+function populateLocalStorage() {
+    $('.time-block').each(function() {
+        let getID = $(this).attr('id');
+        $('#' + getID + ' textarea').text(localStorage.getItem(getID));
+    });
+}
